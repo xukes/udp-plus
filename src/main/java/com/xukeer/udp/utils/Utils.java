@@ -1,6 +1,6 @@
 package com.xukeer.udp.utils;
 
-import com.xukeer.udp.exception.DataOutException;
+import com.xukeer.udp.common.exception.DataOutException;
 
 public class Utils {
 	/**

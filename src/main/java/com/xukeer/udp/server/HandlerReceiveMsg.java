@@ -3,8 +3,8 @@ package com.xukeer.udp.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.xukeer.udp.exception.MsgRepeatException;
-import com.xukeer.udp.msg.CommonMsg;
+import com.xukeer.udp.common.exception.MsgRepeatException;
+import com.xukeer.udp.common.msg.CommonMsg;
 
 /**
  * 处理已接收的消息

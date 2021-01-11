@@ -1,6 +1,6 @@
 package com.xukeer.udp.server;
 
-import com.xukeer.udp.msg.RspSuccess;
+import com.xukeer.udp.common.msg.RspSuccess;
 
 
 public interface RspCallback {

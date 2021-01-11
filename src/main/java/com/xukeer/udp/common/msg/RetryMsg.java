@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.xukeer.udp.msg;
+package com.xukeer.udp.common.msg;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

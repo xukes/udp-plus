@@ -5,7 +5,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.xukeer.udp.msg.RspSuccess;
+import com.xukeer.udp.common.msg.RspSuccess;
 import com.xukeer.udp.server.MsgPackage;
 import com.xukeer.udp.server.RspMsgWaiter;
 

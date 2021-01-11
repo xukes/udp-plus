@@ -1,4 +1,4 @@
-package com.xukeer.udp.exception;
+package com.xukeer.udp.common.exception;
 
 public class MsgRepeatException extends Exception {
 

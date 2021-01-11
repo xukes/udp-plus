@@ -1,4 +1,4 @@
-package com.xukeer.udp.msg;
+package com.xukeer.udp.common.msg;
 
 /**
  * 编码消息

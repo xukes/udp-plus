@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
-import com.xukeer.udp.msg.CommonMsg;
+import com.xukeer.udp.common.msg.CommonMsg;
 import com.xukeer.udp.sender.DeepSend;
 
 /**
