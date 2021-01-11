@@ -6,4 +6,12 @@ package com.xukeer.udp.client;
  * @Date 11:42 2021/1/11
  **/
 public class UpdPlusClient {
+    public UpdPlusClient(String ip, Integer port) {
+
+    }
+
+    public void addClientMessageHandler(ClientMessageHandler clientMessageHandler) {
+
+    }
+
 }
