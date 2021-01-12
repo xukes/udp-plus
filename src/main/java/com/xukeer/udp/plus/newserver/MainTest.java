@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class MainTest {
 
     public static void main(String[] argv) throws IOException {
-        com.xukeer.udp.plus.newserver.Semaphore<Integer> semaphore = new Semaphore<>();
+        Semaphore<Integer> semaphore = new Semaphore<>();
         SingleMessageQueue linkedBlockingQueue = new SingleMessageQueue(semaphore);
 
         new Thread(() -> new MsgCreater(linkedBlockingQueue).run()).start();
