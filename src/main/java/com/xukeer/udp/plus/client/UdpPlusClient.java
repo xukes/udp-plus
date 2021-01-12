@@ -12,6 +12,13 @@ import java.net.InetSocketAddress;
  **/
 public class UdpPlusClient {
     private InetSocketAddress inetSocketAddress;
+
+    // 消息处理器
+    private ClientMessageHandler clientMessageHandler;
+
+
+
+
     public UdpPlusClient(String ip, Integer port) {
         inetSocketAddress = new InetSocketAddress(ip,port);
     }
@@ -23,7 +30,7 @@ public class UdpPlusClient {
     }
 
     public void setClientMessageHandler(ClientMessageHandler clientMessageHandler) {
-
+        this.clientMessageHandler = clientMessageHandler;
     }
 
 }
