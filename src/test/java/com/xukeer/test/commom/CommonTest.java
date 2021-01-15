@@ -3,8 +3,11 @@ package com.xukeer.test.commom;
 import org.junit.Test;
 
 import java.lang.annotation.*;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.Proxy;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,37 +20,22 @@ public class CommonTest {
 
 
     @Test
-    public void test() throws Exception {
-        String sql = "select * from order where createdUser = ${curr_e-ntU1ser} and  depart = ${currentOrg}, ${curraentOrg}, ${curre2ntOrg}, ${current3Org}, ${current4Org}";
-
-        SQLStatement sqlStatement = new SQLStatement(sql);
-
-
-        UserDao userDao =new UserDao();
-        int p = userDao.selectAllUser(1);
-        int p2 = userDao.selectAllUser(2);
-
-        Object o = sqlStatement.executeSql();
-        System.out.println(o);
-
-    }
-
-
-
-
-
-    public static class UserDao {
-        @ISql("")
-        private int selectAllUser(@IParam("ar") Integer ar) {
-            return -1;
+    public void proxyTest(){
+        UserDao userDao = (UserDao) Proxy.newProxyInstance(UserDao.class.getClassLoader(), new Class[]{UserDao.class}, new BaseInvocationHandler());
+        UserInfo userInfo = new UserInfo();
+        long s = System.currentTimeMillis();
+        for(int k=0;k<100;k++) {
+            userInfo.setAge(20);
+            userInfo.setName("userInfo");
+            userDao.selectUser(90, userInfo);
         }
+        System.out.println(String.format("%d", System.currentTimeMillis()-s));
+
     }
-
-
 
 
     public static class SQLStatement {
-        private Map<String, Object> map = new LinkedHashMap<>();
+        private List<String> map = new LinkedList<>();
         private String sql;
 
         public SQLStatement(String sql) throws Exception {
@@ -55,32 +43,29 @@ public class CommonTest {
         }
         private void init(String sql) throws Exception {
             this.sql = ParamParseFactory.parse(sql, paramName -> {
-                if (map.containsKey(paramName)) {
-                    throw new Exception();
-                }
-                map.put(paramName, null);
+                map.add(paramName );
             });
         }
 
-        public Object executeSql() {
-            System.out.println(sql);
-            map.forEach((k,v)->{
-                System.out.println(k);
-                System.out.println("----------");
-            });
-            return null;
+        public String getSql(){
+            return this.sql;
         }
 
+        public List<String> getParam(){
+            return this.map;
+        }
     }
 
+
     public static class ParamParseFactory {
-        public static final Pattern PARAM_PATTERN = Pattern.compile("\\$\\{[-_\\da-zA-Z]+}");
+        public static final Pattern PARAM_PATTERN = Pattern.compile("[$,#]\\{[-_.\\da-zA-Z]+}");
 
         public static String parse(String sql, ParamFoundHandler paramFoundHandler) throws Exception {
             Matcher matcher = PARAM_PATTERN.matcher(sql);
             while (matcher.find()) {
                 sql = sql.replaceFirst(PARAM_PATTERN.pattern(), "?");
-                paramFoundHandler.foundParam(matcher.group());
+                String param = matcher.group();
+                paramFoundHandler.foundParam(param.substring(2,param.length()-1));
             }
             return sql;
         }

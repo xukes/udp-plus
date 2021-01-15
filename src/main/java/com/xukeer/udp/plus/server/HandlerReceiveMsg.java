@@ -10,23 +10,25 @@ import com.xukeer.udp.plus.common.msg.CommonMsg;
  * 处理已接收的消息
  * */
 public class HandlerReceiveMsg {
+
 	Map<Integer, CommonMsg[]> allMsg = new HashMap<Integer, CommonMsg[]>();
 	static int indexx=0;
-	public byte[] addMsg(CommonMsg msg) throws MsgRepeatException {
+	public byte[] addMsg(CommonMsg msg) {
+
 		CommonMsg[] list = allMsg.get(msg.getSequence());
 		if(list != null) {
-			CommonMsg baseMsgArr[] = allMsg.get(msg.getSequence());
+			CommonMsg[] baseMsgArr = allMsg.get(msg.getSequence());
 			int index = msg.getPackageIndex();
 			baseMsgArr[index] = msg;
 		} else {
-			CommonMsg baseMsgArr[] = new CommonMsg[msg.getTotalPackage()];
+			CommonMsg []baseMsgArr = new CommonMsg[msg.getTotalPackage()];
 			baseMsgArr[msg.getPackageIndex()] = msg;
 			allMsg.put(msg.getSequence(), baseMsgArr);
 		}
 		list = allMsg.get(msg.getSequence());
 		if(list != null) {
-			for(int i = 0; i < list.length; i++) {
-				if(list[i] == null) {
+			for (CommonMsg commonMsg : list) {
+				if (commonMsg == null) {
 					return null;
 				}
 			}
@@ -44,7 +46,7 @@ public class HandlerReceiveMsg {
 	}
 	
 	public int getMsgLength(CommonMsg[] list) {
-		int length = 0;
+		int length;
 		int msgLength = list.length;
 		length = list[0].getLength() * (list.length-1) + list[msgLength-1].getLength();
 		return length;
