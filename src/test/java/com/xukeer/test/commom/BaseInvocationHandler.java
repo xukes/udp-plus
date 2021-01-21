@@ -4,9 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.*;
 
 /*
  * @Author xqw
@@ -17,7 +18,6 @@ public class BaseInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        int index = 0;
         CommonTest.ISql iSql = method.getAnnotation(CommonTest.ISql.class);
         if (iSql == null) {return null;}
 
@@ -37,6 +37,7 @@ public class BaseInvocationHandler implements InvocationHandler {
         }
 
         //System.out.println(sqlStatement.getSql());
+        int index = 0;
         for(String param : paramNameArr) {
             if(param.contains(".")) {
                 String[] as = param.split("\\.");
@@ -52,7 +53,22 @@ public class BaseInvocationHandler implements InvocationHandler {
         }
 
      //   System.out.println(Arrays.toString(paramObject));
-        return 100;
+        PreparedStatement preparedStatement = sqlStatement.getPreparedStatement();
+        for (int i = 0; i < paramObject.length; i++) {
+            preparedStatement.setObject(i+1, paramObject[i]);
+        }
+        ResultSet resultSet= sqlStatement.getPreparedStatement().executeQuery();
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        List<Map<String, Object>> list =  new LinkedList<>();
+        while (resultSet.next()) {
+            Map<String, Object> map = new HashMap<>();
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            for (int i = 1; i <= columnCount; i++) {
+                map.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+            }
+            list.add(map);
+        }
+        return  list;
     }
 
 }

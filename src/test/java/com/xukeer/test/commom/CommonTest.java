@@ -3,10 +3,10 @@ package com.xukeer.test.commom;
 import org.junit.Test;
 
 import java.lang.annotation.*;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.lang.reflect.Proxy;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,38 +17,57 @@ import java.util.regex.Pattern;
  * @Date 9:26 2021/1/12
  **/
 public class CommonTest {
-
+    public final static BaseInvocationHandler baseInvocationHandler = new BaseInvocationHandler();
 
     @Test
-    public void proxyTest(){
-        UserDao userDao = (UserDao) Proxy.newProxyInstance(UserDao.class.getClassLoader(), new Class[]{UserDao.class}, new BaseInvocationHandler());
+    public void proxyTest() {
+        UserDao userDao = (UserDao) Proxy.newProxyInstance(UserDao.class.getClassLoader(), new Class[]{UserDao.class}, baseInvocationHandler);
         UserInfo userInfo = new UserInfo();
         long s = System.currentTimeMillis();
-        for(int k=0;k<100;k++) {
-            userInfo.setAge(20);
-            userInfo.setName("userInfo");
-            userDao.selectUser(90, userInfo);
+        userInfo.setAge(20);
+        userInfo.setName("test应用");
+        for(int i=0;i<20;i++){
+            List<Map<String, Object>> mapList = userDao.selectUser(90, userInfo);
         }
-        System.out.println(String.format("%d", System.currentTimeMillis()-s));
+        List<Map<String, Object>> mapList = userDao.selectUser(90, userInfo);
+        mapList.forEach(m->{
+            m.forEach((key,val)->{
+                System.out.print(String.format("%20s|",key));
+            });
+            System.out.println();
+            m.forEach((key,val)->{
+                System.out.print(String.format("%20s|",val));
+            });
+        });
 
+        System.out.println();
+        System.out.println(String.format("%d", System.currentTimeMillis() - s));
     }
 
 
     public static class SQLStatement {
         private List<String> map = new LinkedList<>();
         private String sql;
+        private PreparedStatement preparedStatement;
 
         public SQLStatement(String sql) throws Exception {
             init(sql);
         }
         private void init(String sql) throws Exception {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://mysql.sjzx.test:3306/developer-platform","root","huke123456");
+
             this.sql = ParamParseFactory.parse(sql, paramName -> {
                 map.add(paramName );
             });
+            System.out.println(this.sql);
+            this.preparedStatement = connection.prepareStatement(this.sql);
         }
 
         public String getSql(){
             return this.sql;
+        }
+        public PreparedStatement getPreparedStatement() {
+            return preparedStatement;
         }
 
         public List<String> getParam(){
@@ -74,13 +93,13 @@ public class CommonTest {
     public interface ParamFoundHandler {
         void foundParam(String paramName) throws Exception;
     }
+
     @Target(ElementType.PARAMETER)
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     public @interface IParam {
         String value();
     }
-
 
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
