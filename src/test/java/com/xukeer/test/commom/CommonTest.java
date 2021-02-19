@@ -26,7 +26,7 @@ public class CommonTest {
         long s = System.currentTimeMillis();
         userInfo.setAge(20);
         userInfo.setName("test应用");
-        for(int i=0;i<20;i++){
+        for (int i = 0; i < 20; i++) {
             List<Map<String, Object>> mapList = userDao.selectUser(90, userInfo);
         }
         List<Map<String, Object>> mapList = userDao.selectUser(90, userInfo);
