@@ -14,7 +14,8 @@ public class MsgCreater implements Runnable {
     Map<Integer, MsgBody> map = new HashMap<>();
     Map<String, MsgCrowd> msgCrowdMap = new HashMap<>();
     Map<Integer, FileCreator> fileCreatorMap = new HashMap<>();
-
+    private File file;
+    private FileOutputStream fileOutputStream;
     /**
      *
      */
@@ -22,8 +23,7 @@ public class MsgCreater implements Runnable {
         this.linkedBlockingQueue = linkedBlockingQueue;
     }
 
-    File file;
-    FileOutputStream fileOutputStream;
+
 
     @Override
     public void run() {
