@@ -25,13 +25,12 @@ public class FileCreator {
         }
     }
 
-    public synchronized File createFile() throws IOException {
+    public synchronized void createFile() throws IOException {
         MsgCrowd msgCrowd = msgCrowdMap.get(Integer.toString(index));
         if (msgCrowd!= null && msgCrowd.isComplete()) {
             inii(msgCrowdMap.get(Integer.toString(index)));
             index++;
         }
-        return null;
     }
 
     private void inii(MsgCrowd msgCrowd) throws IOException {

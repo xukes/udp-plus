@@ -54,6 +54,9 @@ public class MsgCrowd {
         msgBodies = new SimpleMsgBody[]{};
     }
 
+    /**
+     * 添加单个消息体
+     * */
     public int addSimpleMsgBody(SimpleMsgBody simpleMsgBody) {
         int index = simpleMsgBody.getMsgIndex();
         int total = simpleMsgBody.getTotalSimpleBody();
@@ -65,9 +68,9 @@ public class MsgCrowd {
         }
         msgBodies[index] = simpleMsgBody;
         if (crowdIsComplete == total) {
-            return 2;
+            return Constants.STATUS_CROWD_MSG_COMPLETE;
         }
-        return 1;
+        return Constants.STATUS_CROWD_MSG_TRANSFER_ING;
     }
 
     public int getIndex() {

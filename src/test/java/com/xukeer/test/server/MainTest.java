@@ -1,4 +1,6 @@
-package com.xukeer.udp.plus.newserver;
+package com.xukeer.test.server;
+
+import com.xukeer.udp.plus.newserver.*;
 
 import java.io.*;
 import java.util.Iterator;
@@ -10,6 +12,7 @@ public class MainTest {
         SingleMessageQueue linkedBlockingQueue = new SingleMessageQueue(semaphore);
 
         new Thread(() -> new MsgCreater(linkedBlockingQueue).run()).start();
+
         new Thread(() -> {
             try {
                 MsgBody msgBody = new MsgBody(new File("D:\\gradle-6.7.1-all.zip"));
@@ -18,12 +21,11 @@ public class MainTest {
                     MsgCrowd msgCrowd = iterator.next();
                     for (int j = 0; j < msgCrowd.getLength(); j++) {
                         SimpleMsgBody simpleMsgBody = msgCrowd.getMsgBodies(j);
-                        //  synchronized (linkedBlockingQueue) {
                         Integer i = linkedBlockingQueue.addMessage(simpleMsgBody);
                         System.out.println("--" + i);
-                        // future.get();
                     }
                 }
+                System.out.println("end");
                 msgBody.close();
             } catch (Exception e) {
                 e.printStackTrace();

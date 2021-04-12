@@ -15,6 +15,7 @@ public class Semaphore<T> {
 
     public T waitRsp() throws InterruptedException {
         synchronized (this) {
+            // TODO 为啥需要这个等待时间
             wait(100);
             return t;
         }

@@ -11,9 +11,7 @@ public class SingleMessageQueue {
     }
 
     public Integer addMessage(SimpleMsgBody simpleMsgBody) throws InterruptedException, ExecutionException {
-
         this.simpleMsgBody = simpleMsgBody;
-        System.out.println(2);
         Integer i;
         synchronized (this) {
             notify();
@@ -25,7 +23,6 @@ public class SingleMessageQueue {
     public SimpleMsgBody read() throws InterruptedException {
         synchronized (this) {
             wait();
-            System.out.println(1);
             return simpleMsgBody;
         }
     }

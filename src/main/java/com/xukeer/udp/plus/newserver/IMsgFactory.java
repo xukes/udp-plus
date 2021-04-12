@@ -7,7 +7,7 @@ public interface IMsgFactory {
     /**
      * 根据字节数组创建一个消息簇
      * */
-    MsgCrowd create(byte[] bytes);
+    Iterator<MsgCrowd> create(byte[] bytes);
 
     /**
      * 根据文件创建一个消息簇迭代器
