@@ -25,7 +25,6 @@ public class MainTest {
                         System.out.println("--" + i);
                     }
                 }
-                System.out.println("end");
                 msgBody.close();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -10,13 +10,13 @@ public class SimpleMsgBody {
 
     private byte type;  // 消息类型，1、字节消息体，2、文件头 3、文件体
     private int sequence;     // 消息序号
-    private int totalCrow;    // 总共用多少个簇
+    private long totalCrow;    // 总共用多少个簇
     private int totalSimpleBody;  // 当前消息所在的簇有多少个SimpleMsgBody
     private int crowdIndex;   // 该消息属于第几个簇
     private int msgIndex;     // 该消息属于簇的第几个包
     private byte[] msg;       // 消息体
 
-    public SimpleMsgBody(int sequence, byte type,  int totalCrow, int totalSimpleBody, int crowdIndex, int index, byte[] bytes) {
+    public SimpleMsgBody(int sequence, byte type,  long totalCrow, int totalSimpleBody, int crowdIndex, int index, byte[] bytes) {
         this.type = type;
         this.sequence = sequence;
         this.totalCrow = totalCrow;
@@ -26,7 +26,7 @@ public class SimpleMsgBody {
         this.msg = bytes;
     }
 
-    public int getTotalCrow() {
+    public long getTotalCrow() {
         return totalCrow;
     }
 

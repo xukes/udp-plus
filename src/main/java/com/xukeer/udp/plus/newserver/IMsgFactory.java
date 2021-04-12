@@ -1,6 +1,7 @@
 package com.xukeer.udp.plus.newserver;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 
 public interface IMsgFactory {
@@ -14,5 +15,5 @@ public interface IMsgFactory {
      *
      *
      * */
-    Iterator<MsgCrowd> create(File file);
+    Iterator<MsgCrowd> create(File file) throws FileNotFoundException;
 }

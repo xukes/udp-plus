@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileCreator {
-    private int totalCrowd;
+    private long totalCrowd;
     private FileOutputStream fileOutputStream;
     private int index = 0;
     private Map<String, MsgCrowd> msgCrowdMap = new HashMap<>();

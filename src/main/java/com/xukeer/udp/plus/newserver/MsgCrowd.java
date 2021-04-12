@@ -20,7 +20,7 @@ public class MsgCrowd {
          this(sequence, SimpleMsgBody.TYPE_BYTE_MESSAGE,totalCrowd,index,bytes);
     }
 
-    public MsgCrowd(int sequence, byte msgType, int totalCrowd, int index, byte[] bytes) {
+    public MsgCrowd(int sequence, byte msgType, long totalCrowd, int index, byte[] bytes) {
         this.index = index;
         this.sequence = sequence;
         int byteLength = bytes.length;
@@ -107,5 +107,9 @@ public class MsgCrowd {
 
     public boolean isComplete() {
         return crowdIsComplete == length;
+    }
+
+    public SimpleMsgBody[] getMsgBodies() {
+        return msgBodies;
     }
 }
