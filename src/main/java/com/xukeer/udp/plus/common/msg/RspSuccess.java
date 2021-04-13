@@ -23,9 +23,9 @@ public class RspSuccess extends Msg {
 	}
 
 	@Override
-	public void decodeMsg(DataInputStream strem, InetSocketAddress sourceAddr) throws IOException {
-		sequence = strem.readInt();
-		status = strem.readByte();
+	public void decodeMsg(DataInputStream stream, InetSocketAddress sourceAddr) throws IOException {
+		sequence = stream.readInt();
+		status = stream.readByte();
 	}
 
 	@Override

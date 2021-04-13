@@ -41,12 +41,13 @@ public class Sender {
 	 * @throws InterruptedException 
 	 * */
 	public RspSuccess sendMsg(byte[] bytes, InetSocketAddress targertAddr) throws IOException, InterruptedException {
-		MsgPackage pa = new MsgPackage(bytes, targertAddr);
-		RspMsgWaiter waiter = new RspMsgWaiter();
-		msgWaiter.put(pa.getSequence(), waiter);
-		 pa.send();
-		senderMsg.put(pa.getSequence(), pa);
-		return waiter.waitRsp();
+//		MsgPackage pa = new MsgPackage(bytes, targertAddr);
+//		RspMsgWaiter waiter = new RspMsgWaiter();
+//		msgWaiter.put(pa.getSequence(), waiter);
+//		 pa.send();
+//		senderMsg.put(pa.getSequence(), pa);
+//		return waiter.waitRsp();
+		return null;
 	}
 	
 	public void onReceive(Integer sequence, RspSuccess rsp) {
@@ -59,13 +60,13 @@ public class Sender {
 	}
 	
 	public void retryMsg(Integer sequence, Integer[] index) throws IOException {
-		System.out.println(System.currentTimeMillis()+"retry"+index.length);
-		MsgPackage msg = senderMsg.get(sequence);
-		if(msg== null){
-			return;
-		}
-		for(int i=0;i<index.length;i++) {
-			msg.send(index[i]);
-		}
+//		System.out.println(System.currentTimeMillis()+"retry"+index.length);
+//		MsgPackage msg = senderMsg.get(sequence);
+//		if(msg== null){
+//			return;
+//		}
+//		for(int i=0;i<index.length;i++) {
+//			msg.send(index[i]);
+//		}
 	}
 }

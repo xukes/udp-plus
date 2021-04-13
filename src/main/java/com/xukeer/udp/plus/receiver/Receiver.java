@@ -169,35 +169,35 @@ public class Receiver {
 	 * 处理接收到的消息片段
 	 * */
 	public void handleReceiveMsg(CommonMsg msg) throws MsgRepeatException, IOException {
-		int sequence = msg.getSequence();
-		lastReceive.put(sequence, System.currentTimeMillis());
-		CommonMsg[] list = allMsg.get(sequence);
-		if(list != null) {
-			CommonMsg baseMsgArr[] = list;
-			int index = msg.getPackageIndex();
-			baseMsgArr[index] = msg;
-		} else {
-			list = new CommonMsg[msg.getTotalPackage()];
-			list[msg.getPackageIndex()] = msg;
-			allMsg.put(sequence, list);
-		}
-		for(int i = 0; i < list.length; i++) {
-			if(list[i] == null) {
-				return;
-			}
-		}
-		int msgLength = list[0].getLength(); 
-		int msgTotalLength = getMsgLength(list);
-		byte[] msgByte = new byte[msgTotalLength];
-		for(int i = 0; i < list.length; i++){
-			System.arraycopy(list[i].getMsg(), 0, msgByte, msgLength*i, list[i].getLength());
-		}
-		allMsg.remove(msg.getSequence());
-		lastReceive.remove(msg.getSequence());
-		DeepSend.getInstance().send(new RspSuccess(sequence,Msg.STATUS_SUCCESS).encodeMsg(), msg.getSourceAddr());
-		if(revice != null) {
-			revice.receiveMsg(msg.getSourceAddr(), msgByte);
-		}
+//		int sequence = msg.getSequence();
+//		lastReceive.put(sequence, System.currentTimeMillis());
+//		CommonMsg[] list = allMsg.get(sequence);
+//		if(list != null) {
+//			CommonMsg baseMsgArr[] = list;
+//			int index = msg.getPackageIndex();
+//			baseMsgArr[index] = msg;
+//		} else {
+//			list = new CommonMsg[msg.getTotalPackage()];
+//			list[msg.getPackageIndex()] = msg;
+//			allMsg.put(sequence, list);
+//		}
+//		for(int i = 0; i < list.length; i++) {
+//			if(list[i] == null) {
+//				return;
+//			}
+//		}
+//		int msgLength = list[0].getMsgLength();
+//		int msgTotalLength = getMsgLength(list);
+//		byte[] msgByte = new byte[msgTotalLength];
+//		for(int i = 0; i < list.length; i++){
+//			System.arraycopy(list[i].getMsg(), 0, msgByte, msgLength*i, list[i].getLength());
+//		}
+//		allMsg.remove(msg.getSequence());
+//		lastReceive.remove(msg.getSequence());
+//		DeepSend.getInstance().send(new RspSuccess(sequence,Msg.STATUS_SUCCESS).encodeMsg(), msg.getSourceAddr());
+//		if(revice != null) {
+//			revice.receiveMsg(msg.getSourceAddr(), msgByte);
+//		}
 	
 	}
 	
@@ -207,7 +207,7 @@ public class Receiver {
 	public int getMsgLength(CommonMsg[] list) {
 		int length = 0;
 		int msgLength = list.length;
-		length = list[0].getLength() * (list.length-1) + list[msgLength-1].getLength();
+		length = list[0].getMsgLength()* (list.length-1) + list[msgLength-1].getMsgLength();
 		return length;
 	}
 	

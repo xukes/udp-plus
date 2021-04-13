@@ -33,7 +33,7 @@ public class RspMsg extends Msg implements Comparable<Object>
 		return bytes.length;
 	}
 	@Override
-	public void decodeMsg(DataInputStream strem, InetSocketAddress sourceAddr) throws IOException {
+	public void decodeMsg(DataInputStream stream, InetSocketAddress sourceAddr) throws IOException {
 		
 	}
 	@Override

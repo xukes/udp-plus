@@ -6,7 +6,7 @@ import java.util.Map;
 public class MsgFactory {
 	public final static Map<Short, Class<?>> msgMap =new HashMap<>();
 	static{
-		msgMap.put(CommonMsg.N, CommonMsg.class);
+		msgMap.put(CommonMsg.TYPE, CommonMsg.class);
 		msgMap.put(RetryMsg.N, RetryMsg.class);
 		msgMap.put(RspSuccess.N, RspSuccess.class);
 	}

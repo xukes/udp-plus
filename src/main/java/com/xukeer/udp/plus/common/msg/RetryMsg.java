@@ -29,12 +29,12 @@ public class RetryMsg extends Msg {
 	}
 	
 	@Override
-	public void decodeMsg(DataInputStream strem, InetSocketAddress sourceAddr) throws IOException {
-		this.sequence = strem.readInt();
-		this.length = strem.readInt();
+	public void decodeMsg(DataInputStream stream, InetSocketAddress sourceAddr) throws IOException {
+		this.sequence = stream.readInt();
+		this.length = stream.readInt();
 		msgIndex = new Integer[length];
-		for(int i=0;i<length;i++){
-			msgIndex[i] = strem.readInt();
+		for (int i = 0; i < length; i++) {
+			msgIndex[i] = stream.readInt();
 		}
 	}
 	@Override
@@ -45,8 +45,8 @@ public class RetryMsg extends Msg {
 		sss.writeShort(N);
 		sss.writeInt(sequence);
 		sss.writeInt(msgIndex.length);
-		for(int i=0;i<msgIndex.length;i++){
-			sss.writeInt(msgIndex[i]);
+		for (Integer index : msgIndex) {
+			sss.writeInt(index);
 		}
 		return stream.toByteArray();
 	}

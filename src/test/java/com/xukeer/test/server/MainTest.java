@@ -16,7 +16,7 @@ public class MainTest {
         new Thread(() -> {
             try {
                 MsgBody msgBody = new MsgBody(new File("D:\\gradle-6.7.1-all.zip"));
-                Iterator<MsgCrowd> iterator = msgBody.getIterarot();
+                Iterator<MsgCrowd> iterator = msgBody.getIterator();
                 while (iterator.hasNext()) {
                     MsgCrowd msgCrowd = iterator.next();
                     for (int j = 0; j < msgCrowd.getLength(); j++) {
