@@ -79,11 +79,11 @@ public class MsgFactory implements IMsgFactory {
 
                 byte[] arr = new byte[CLOUD_LENGTH * MSG_LENGTH];
                 try {
-                    int i = bufferedInputStream.read(arr);
+                    int length = bufferedInputStream.read(arr);
                     MsgCrowd msgCrowd;
-                    if (i < CLOUD_MSG_TOTAL) {
-                        byte[] newByteArr = new byte[i];
-                        System.arraycopy(arr, 0, newByteArr, 0, i);
+                    if (length < CLOUD_MSG_TOTAL) {
+                        byte[] newByteArr = new byte[length];
+                        System.arraycopy(arr, 0, newByteArr, 0, length);
                         msgCrowd = new MsgCrowd(sequence, SimpleMsgBody.TYPE_FILE_CONTENT, crowdLength, msgCrowdIndex, newByteArr);
                     } else {
                         msgCrowd = new MsgCrowd(sequence, SimpleMsgBody.TYPE_FILE_CONTENT, crowdLength, msgCrowdIndex, arr);
