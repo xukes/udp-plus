@@ -30,13 +30,13 @@ public class CommonTest {
             List<Map<String, Object>> mapList = userDao.selectUser(90, userInfo);
         }
         List<Map<String, Object>> mapList = userDao.selectUser(90, userInfo);
-        mapList.forEach(m->{
-            m.forEach((key,val)->{
-                System.out.print(String.format("%20s|",key));
+        mapList.forEach(m -> {
+            m.forEach((key, val) -> {
+                System.out.print(String.format("%20s|", key));
             });
             System.out.println();
-            m.forEach((key,val)->{
-                System.out.print(String.format("%20s|",val));
+            m.forEach((key, val) -> {
+                System.out.print(String.format("%20s|", val));
             });
         });
 
