@@ -36,6 +36,7 @@ public class Solution1916 {
 //        list.add(java.util.stream.Stream.of(15,87).collect(java.util.stream.Collectors.toList()));
 //        list.add(java.util.stream.Stream.of(2,97).collect(java.util.stream.Collectors.toList()));
 
+
 //        list.add(java.util.stream.Stream.of(0,2).collect(java.util.stream.Collectors.toList()));
 //        list.add(java.util.stream.Stream.of(1,5).collect(java.util.stream.Collectors.toList()));
 //        list.add(java.util.stream.Stream.of(0,9).collect(java.util.stream.Collectors.toList()));
@@ -58,9 +59,7 @@ public class Solution1916 {
         StringBuilder sb = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
-            String line = br.readLine(); //如果文件读完后还读，就返回 null
-            sb.append(line);
-            line = "";
+            String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }

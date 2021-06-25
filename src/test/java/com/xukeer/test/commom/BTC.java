@@ -7,10 +7,10 @@ package com.xukeer.test.commom;
  **/
 public class BTC {
     public static void main(String[] args) {
-        double firstBuyPrice = 45000;                // 第一次买入价
+        double firstBuyPrice = 47400;                // 第一次买入价
         double firstBuyAmount = 3000;                // 初次买入金额
-        double nowPrice = 38664;                     // 现价
-        double exceptionPrice = 41000;               // 期望价
+        double nowPrice = 40000;                     // 现价
+        double exceptionPrice = 43000;               // 期望价
 
         fair(firstBuyPrice, firstBuyAmount, nowPrice, exceptionPrice);
     }
