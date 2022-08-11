@@ -18,7 +18,6 @@ public class Solution191 {
         for (int i = 1; i <= 10; ++i) {
             System.out.println(i);
         }
-
     }
 
     public int maxProduct(int[] nums) {

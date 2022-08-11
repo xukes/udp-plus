@@ -3,6 +3,7 @@ package com.xukeer.udp.plus.utils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * 通用的线程池和定时器
@@ -30,7 +31,7 @@ public class ScheduleUtil {
 		if( timerExecutor == null ) {
 			synchronized (ScheduleUtil.class) {
 				if( timerExecutor == null ) {
-					timerExecutor = Executors.newScheduledThreadPool(10);
+					timerExecutor = Executors.newScheduledThreadPool(2);
 				}
 			}
 		}

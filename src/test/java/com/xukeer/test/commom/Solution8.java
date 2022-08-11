@@ -11,7 +11,7 @@ public class Solution8 {
 
         rotateString(str,1);
 
-        for(char s: str){
+        for(char s : str) {
             System.out.println(s);
         }
     }
@@ -30,7 +30,7 @@ public class Solution8 {
         for (int i = 0; i < length; i++) {
             int index = i - offset;
             if (index < 0) {
-                index = length+index;
+                index = length + index;
             }
             newStr[i] = str[index];
         }

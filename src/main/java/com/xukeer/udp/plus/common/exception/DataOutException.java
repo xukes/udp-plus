@@ -1,6 +1,6 @@
 package com.xukeer.udp.plus.common.exception;
 
-public class DataOutException extends Exception {
+public class DataOutException extends RuntimeException {
 
 	/**
 	 * 

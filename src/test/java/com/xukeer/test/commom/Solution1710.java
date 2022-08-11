@@ -1,6 +1,5 @@
 package com.xukeer.test.commom;
 
-import org.junit.Test;
 
 /*
  * @Author xqw
@@ -12,7 +11,7 @@ import org.junit.Test;
  * @Date 10:09 2021/5/12
  **/
 public class Solution1710 {
-    @Test
+//    @Test
     public void test() {
         // A[k] * 2 = A[i] + A[j];
 

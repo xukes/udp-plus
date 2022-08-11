@@ -1,6 +1,6 @@
 package com.xukeer.test.commom;
 
-import org.junit.Test;
+//import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  **/
 public class StreamTest {
 
-    @Test
+//    @Test
     public void test1() {
         List<String> list = Arrays.asList("test", "origin", "start", "start");
 

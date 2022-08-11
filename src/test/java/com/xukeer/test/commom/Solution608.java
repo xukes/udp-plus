@@ -1,6 +1,5 @@
 package com.xukeer.test.commom;
 
-import org.junit.Test;
 
 /*
  * @Author xqw
@@ -49,7 +48,7 @@ public class Solution608 {
         return -1;
     }
 
-    @Test
+//    @Test
     public void test(){
         int [] arr = {0,0,11,15,23,43,44,56,57};
 

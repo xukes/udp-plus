@@ -1,6 +1,5 @@
 package com.xukeer.test.commom;
 
-import lombok.Data;
 
 import java.util.HashMap;
 

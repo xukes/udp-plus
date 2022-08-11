@@ -3,6 +3,9 @@ package com.xukeer.udp.plus.utils;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
+/**
+ * 带有优先级属性的任务
+ * */
 public class PrioritizedTask<V> extends FutureTask<V> implements Comparable<PrioritizedTask<V>> {
 
 	private int priority;

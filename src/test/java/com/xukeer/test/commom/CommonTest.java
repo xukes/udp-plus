@@ -1,6 +1,6 @@
 package com.xukeer.test.commom;
 
-import org.junit.Test;
+// import org.junit.Test;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Proxy;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class CommonTest {
     public final static BaseInvocationHandler baseInvocationHandler = new BaseInvocationHandler();
 
-    @Test
+    //@Test
     public void proxyTest() {
         UserDao userDao = (UserDao) Proxy.newProxyInstance(UserDao.class.getClassLoader(), new Class[]{UserDao.class}, baseInvocationHandler);
         UserInfo userInfo = new UserInfo();

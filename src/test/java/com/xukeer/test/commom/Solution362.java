@@ -1,6 +1,5 @@
 package com.xukeer.test.commom;
 
-import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -12,7 +11,7 @@ import java.util.List;
  * @Date 15:45 2021/4/30
  **/
 public class Solution362 {
-    @Test
+    //@Test
     public void test() {
         List<String> list = new LinkedList<>();
         String[] str = {"changePic", "changePic", "changeName", "changeNickName", "changePhone", "changeMail", "changePwd", "changeVersions", "login", "install", "coldBoot", "hotBoot", "changeLanguage", "communityLive", "recommendLive", "IMLivechangeName",

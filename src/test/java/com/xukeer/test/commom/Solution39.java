@@ -43,14 +43,15 @@ public class Solution39 {
     }
 
     private static void reverse(int start, int end, List<Integer> nums) {
+        Integer temp ;
         for (int i = start, j = end; i < j; i++, j--) {
-            Integer temp = (nums.get(j));
+            temp = nums.get(j);
             temp ^= nums.get(i);
             nums.set(j, temp);
-            temp = (nums.get(i));
+            temp = nums.get(i);
             temp ^= nums.get(j);
             nums.set(i, temp);
-            temp = (nums.get(j));
+            temp = nums.get(j);
             temp ^= nums.get(i);
             nums.set(j, temp);
         }

@@ -1,6 +1,5 @@
 package com.xukeer.test.commom;
 
-import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
  **/
 public class Solution692 {
 
-    @Test
+//    @Test
     public void test() {
         int[] nums = {1,1,1,1,14,23,12,12,154,123,422,12,1};
         System.out.println(slidingWindowUniqueElementsSum(nums, 3));

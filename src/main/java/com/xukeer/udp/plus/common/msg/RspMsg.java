@@ -1,44 +1,36 @@
 package com.xukeer.udp.plus.common.msg;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.io.DataOutputStream;
 
 /**
- * 公共的消息
+ * // 完成接收后的确认消息
  * */
-public class RspMsg extends Msg implements Comparable<Object>
-{
-	
-	private byte[] bytes;   // 消息体 
-	
-	private InetSocketAddress sourceAdddress;  // 消息源端口
+public final class RspMsg extends Msg {
+	public RspMsg() {
+		super.TYPE = MsgConstants.RECEIVE_MSG;
+	}
 
-	
-	public RspMsg(byte[] bytes, InetSocketAddress sourceAdddress) {
-		super();
-		this.bytes = bytes;
-		this.sourceAdddress = sourceAdddress;
-	}
-	public byte[] getBytes() {
-		return bytes;
-	}
-	
-	public InetSocketAddress getSourceAdddress() {
-		return sourceAdddress;
-	}
-	
+
 	@Override
-	public int compareTo(Object o) {
-		return bytes.length;
+	public byte[] childEncodeMsg(ByteArrayOutputStream stream, DataOutputStream dataOutputStream) {
+		return stream.toByteArray();
 	}
+
 	@Override
-	public void decodeMsg(DataInputStream stream, InetSocketAddress sourceAddr) throws IOException {
-		
+	public void childDecodeMsg(DataInputStream stream){
 	}
+
+
 	@Override
-	public byte[] encodeMsg() throws IOException {
-		return null;
+	public String toString() {
+		return "RspMsg{" +
+				"crowdIndex=" + super.getCrowdIndex() +
+				", TYPE=" + TYPE +
+				", sequence=" + sequence +
+				'}';
 	}
-	
+
+
 }

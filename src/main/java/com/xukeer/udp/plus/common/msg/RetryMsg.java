@@ -3,63 +3,73 @@
  */
 package com.xukeer.udp.plus.common.msg;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 
 /**
  * @author xukeer
  * 通知对方重发的消息
  */
-public class RetryMsg extends Msg {
-	public final static short N = 2; 
-	
-	private int sequence;  // 重发的消息序列号
-	private int length;
-	private Integer[] msgIndex;
-	
-	public RetryMsg() {
-	}
+public final class RetryMsg extends Msg {
 
-	public RetryMsg (int sequence, Integer[] msgIndex) {
-		this.sequence = sequence;
-		this.msgIndex = msgIndex;
+	private byte[] simpleMsgIndex; //丢失的消息
+
+	public RetryMsg(long seq, int crowdIndex, byte[] simpleMsgIndex) {
+		super.TYPE = MsgConstants.RETRY_MSG;
+		super.setSequence(seq);
+
+		super.setCrowdIndex(crowdIndex);
+		this.simpleMsgIndex=simpleMsgIndex;
 	}
-	
-	@Override
-	public void decodeMsg(DataInputStream stream, InetSocketAddress sourceAddr) throws IOException {
-		this.sequence = stream.readInt();
-		this.length = stream.readInt();
-		msgIndex = new Integer[length];
-		for (int i = 0; i < length; i++) {
-			msgIndex[i] = stream.readInt();
-		}
+	public RetryMsg() {
+		super.TYPE = MsgConstants.RETRY_MSG;
 	}
 	@Override
-	public byte[] encodeMsg() throws IOException {
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		DataOutputStream sss = new DataOutputStream(stream);
-		sss.write(MAGIC);
-		sss.writeShort(N);
-		sss.writeInt(sequence);
-		sss.writeInt(msgIndex.length);
-		for (Integer index : msgIndex) {
-			sss.writeInt(index);
-		}
+	public byte[] childEncodeMsg(ByteArrayOutputStream stream, DataOutputStream dataOutputStream) {
+		try {
+			int length = simpleMsgIndex.length;
+			dataOutputStream.writeInt(length);
+			for (byte msgIndex : simpleMsgIndex) {
+				dataOutputStream.writeByte(msgIndex);
+			}
+		}catch (IOException ignored){}
 		return stream.toByteArray();
 	}
 
-	public int getSequence() {
-		return sequence;
+	@Override
+	public void childDecodeMsg(DataInputStream stream) throws IOException {
+		int length = stream.readInt();
+		if(length > 8096) {
+			return;
+		}
+		simpleMsgIndex = new byte[length];
+		for (int i = 0; i < length; i++) {
+			simpleMsgIndex[i] = stream.readByte();
+		}
 	}
 
-	public int getLength() {
-		return length;
+	public byte[] getSimpleMsgIndex() {
+		return simpleMsgIndex;
 	}
 
-	public Integer[] getMsgIndex() {
-		return msgIndex;
+	@Override
+	public String toString() {
+		return "RetryMsg{" +
+				"crowdIndex=" + super.getCrowdIndex() +
+				", simpleMsgIndex=" + intArrTOString(simpleMsgIndex) +
+				", TYPE=" + TYPE +
+				", sequence=" + sequence +
+				'}';
+	}
+
+	private String intArrTOString(byte[] simpleMsgIndex){
+		StringBuilder stringBuilder = new StringBuilder();
+		for(int i: simpleMsgIndex){
+			stringBuilder.append(i).append(",");
+		}
+		return stringBuilder.toString();
 	}
 }
