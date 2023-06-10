@@ -7,9 +7,7 @@ import com.xukeer.udp.plus.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,9 +17,9 @@ import java.util.Map;
  * @date 11:56 2021/12/3
  **/
 final class CrowdReceiverHandler {
-    private static Logger log = LoggerFactory.getLogger(CrowdReceiverHandler.class);
-    private Map<Long, ReceiveCrowd> receiveCrowdMap = new HashMap<>();
-    private ICrowdReceiver iCrowdReceiver;
+    private static final Logger log = LoggerFactory.getLogger(CrowdReceiverHandler.class);
+    private final Map<Long, ReceiveCrowd>  receiveCrowdMap = new HashMap<>();
+    private final ICrowdReceiver iCrowdReceiver;
 
      CrowdReceiverHandler(ICrowdReceiver iCrowdReceiver) {
         this.iCrowdReceiver = iCrowdReceiver;
@@ -31,7 +29,7 @@ final class CrowdReceiverHandler {
         long sequence = crowdOptionMsg.getSequence();
         ReceiveCrowd receiveCrowd;
         if (!receiveCrowdMap.containsKey(sequence)) {
-            receiveCrowd = new ReceiveCrowd(crowdOptionMsg.getTotalCrowdAmount(), iCrowdReceiver, seq -> receiveCrowdMap.remove(seq));
+            receiveCrowd = new ReceiveCrowd(crowdOptionMsg.getTotalCrowdAmount(), iCrowdReceiver, receiveCrowdMap::remove);
             receiveCrowdMap.put(sequence, receiveCrowd);
         } else {
             receiveCrowd = receiveCrowdMap.get(sequence);
@@ -56,17 +54,17 @@ final class CrowdReceiverHandler {
     }
 
     private static class ReceiveCrowd {
-        private int totalCrowdAmount;       // 总的消息集
+        private final int totalCrowdAmount;       // 总的消息集
         private int currentCrowdIndex = 0;     // 当前处理到第几个集,使用情况下是会递增的
-        private byte[][] crowdData;  // 整个消息体的消息内容
+        private final byte[][] crowdData;  // 整个消息体的消息内容
         private byte[][] simpleMsgData; // 单个簇的消息内容
         private byte currentSimpleCompleteCount;   // 当前簇完成接收的消息个数
 
         private byte[] missSimpleIndex;
         private byte missCount;
 
-        private ICrowdReceiver iCrowdReceiver;
-        private IRemoveReceiveCrowdMap iRemoveReceiveCrowdMap;
+        private final ICrowdReceiver iCrowdReceiver;
+        private final IRemoveReceiveCrowdMap iRemoveReceiveCrowdMap;
 
         ReceiveCrowd(int totalCrowdAmount, ICrowdReceiver iCrowdReceiver, IRemoveReceiveCrowdMap iRemoveReceiveCrowdMap) {
             this.totalCrowdAmount = totalCrowdAmount;

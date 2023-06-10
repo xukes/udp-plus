@@ -8,7 +8,7 @@ import java.util.concurrent.FutureTask;
  * */
 public class PrioritizedTask<V> extends FutureTask<V> implements Comparable<PrioritizedTask<V>> {
 
-	private int priority;
+	private final int priority;
 	
 	public PrioritizedTask(Callable<V> callable, int priority) {
 		super(callable);

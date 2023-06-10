@@ -12,11 +12,11 @@ import static com.xukeer.udp.plus.common.MsgFactory.MSG_LENGTH;
  */
 //@Slf4j
 public final class MsgCrowd {
-    private int index;
-    private long sequence;
-    private byte simMagTotal;  // msgBodies length
-    private int totalCrowd;
-    private CommonMsg[] msgBodies;
+    private final int index;
+    private final long sequence;
+    private final byte simMagTotal;  // msgBodies length
+    private final int totalCrowd;
+    private final CommonMsg[] msgBodies;
 
     public MsgCrowd(long sequence, int totalCrowd, int crowIndex, byte[] bytes) {
         this.index = crowIndex;

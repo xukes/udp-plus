@@ -11,11 +11,11 @@ import java.util.concurrent.TimeUnit;
  * @since jdk 1.8
  **/
 public class CacheSet<T> {
-    private Set<T> instance = new HashSet<>();
+    private final Set<T> instance = new HashSet<>();
     private final List<CacheTime<T>> cacheTimeList = new LinkedList<>();
     private final static int DEFAULT_SAVE_TIME = 60*1000;   // 默认在缓存中存储的时间
 
-    private int saveTime;
+    private final int saveTime;
 
     public CacheSet() {
         this.saveTime = DEFAULT_SAVE_TIME;

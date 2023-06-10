@@ -12,9 +12,9 @@ import java.util.Iterator;
 public class MsgFactory  {
 
     public static int MSG_LENGTH = 4068; // 每个消息基础的字节数量（最小的发送单元）
-    private static int CLOUD_LENGTH = 120; // 每个簇的基础包数量
+    private final static int CLOUD_LENGTH = 120; // 每个簇的基础包数量
 
-    private static int CLOUD_MSG_TOTAL = MSG_LENGTH * CLOUD_LENGTH;  // 每个簇的总消息大小
+    private final static int CLOUD_MSG_TOTAL = MSG_LENGTH * CLOUD_LENGTH;  // 每个簇的总消息大小
 
     public static Iterator<MsgCrowd> create(final byte[] bytes, long sequence) {
         int length = bytes.length;

@@ -22,11 +22,11 @@ import java.net.InetSocketAddress;
 public class MsgReceiveHandle implements Runnable {
     private final static int MAX_RECEIVE_BUFFER_LENGTH = 8096; // 消息最大缓冲区
 
-    private boolean isRunning = true;
+    private final boolean isRunning = true;
 
-    private DatagramSocket datagramSocket;
+    private final DatagramSocket datagramSocket;
 
-    private BusLine busLine;
+    private final BusLine busLine;
 
     public MsgReceiveHandle(DatagramSocket datagramSocket, MessageHandler messageHandler, MsgSender msgSender) {
         this.datagramSocket = datagramSocket;

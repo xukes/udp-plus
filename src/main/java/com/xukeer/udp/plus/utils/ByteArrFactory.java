@@ -19,13 +19,13 @@ public class ByteArrFactory {
     private static final List<byte[]> ListThirtyTwoKByte = new LinkedList<>(); // 32Kb字节的数组，20个
     private static final List<byte[]> ListSixtyFourKByte = new LinkedList<>(); // 64Kb字节的数组，10个
 
-    private static List<byte[]> listOneKByteUsing = new LinkedList<>();   // 1kb字节的数组,100个
-    private static List<byte[]> listTwoKByteUsing = new LinkedList<>();   // 2kb字节的数组,50个
-    private static List<byte[]> ListFourKByteUsing = new LinkedList<>(); // 4Kb字节的数组，50个
-    private static List<byte[]> ListEightKByteUsing = new LinkedList<>(); // 8Kb字节的数组，50个
-    private static List<byte[]> ListSixteenKByteUsing = new LinkedList<>(); // 16Kb字节的数组，20个
-    private static List<byte[]> ListThirtyTwoKByteUsing = new LinkedList<>(); // 32Kb字节的数组，20个
-    private static List<byte[]> ListSixtyFourKByteUsing = new LinkedList<>(); // 64Kb字节的数组，10个
+    private static final List<byte[]> listOneKByteUsing = new LinkedList<>();   // 1kb字节的数组,100个
+    private static final List<byte[]> listTwoKByteUsing = new LinkedList<>();   // 2kb字节的数组,50个
+    private static final List<byte[]> ListFourKByteUsing = new LinkedList<>(); // 4Kb字节的数组，50个
+    private static final List<byte[]> ListEightKByteUsing = new LinkedList<>(); // 8Kb字节的数组，50个
+    private static final List<byte[]> ListSixteenKByteUsing = new LinkedList<>(); // 16Kb字节的数组，20个
+    private static final List<byte[]> ListThirtyTwoKByteUsing = new LinkedList<>(); // 32Kb字节的数组，20个
+    private static final List<byte[]> ListSixtyFourKByteUsing = new LinkedList<>(); // 64Kb字节的数组，10个
 
     private static final int kb = 1024;
 

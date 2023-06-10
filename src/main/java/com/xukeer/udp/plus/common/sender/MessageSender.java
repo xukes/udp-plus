@@ -5,7 +5,6 @@ import com.xukeer.udp.plus.common.MsgFactory;
 import com.xukeer.udp.plus.common.msg.CommonMsg;
 import com.xukeer.udp.plus.common.msg.CrowdOptionMsg;
 import com.xukeer.udp.plus.utils.SnowflakeUtil;
-import com.xukeer.udp.plus.utils.Utils;
 
 import java.net.InetSocketAddress;
 import java.util.Iterator;
@@ -16,14 +15,14 @@ import java.util.Iterator;
  * @date 18:19 2021/12/1
  **/
 public class MessageSender {
-    private Iterator<MsgCrowd> msgCrowdIterator;
-    private InetSocketAddress targetAddr;
+    private final Iterator<MsgCrowd> msgCrowdIterator;
+    private final InetSocketAddress targetAddr;
 
-    private long sequence;
+    private final long sequence;
     private int currentCrowdIndex;
     private boolean canRunning = true;
 
-    private ISimpleMsgSender iSimpleMsgSender;
+    private final ISimpleMsgSender iSimpleMsgSender;
 
     public MessageSender(byte[] bytes, InetSocketAddress targetAddr, ISimpleMsgSender iSimpleMsgSender) {
         this.targetAddr = targetAddr;

@@ -39,9 +39,9 @@ public final class BusLine {
 
     private CrowdReceiverHandler crowdReceiverHandler;
 
-    private MessageHandler messageHandler;
+    private final MessageHandler messageHandler;
 
-    private MsgSender msgSender;
+    private final MsgSender msgSender;
 
 //    private final static Map<String, Integer> MsgSendMsgBodyPriorityMap = new HashMap<>();
 //    private final static int DEFAULT_PRIORITY = 1;
@@ -196,7 +196,6 @@ public final class BusLine {
 
     /**
      * 从主线中查找等待者
-     *
      * */
     private <T extends WaiterSendMsgBody> void findWaiter(long sequence, int crowIndex, Class<T> tClass) {
         // 先从主线中查找(比较大概率是可以找到的)
@@ -284,8 +283,8 @@ public final class BusLine {
     }
 
     private static class MsgSendMsgBody extends SendMsgBody {
-        private Msg msg;
-        private InetSocketAddress socketAddress;
+        private final Msg msg;
+        private final InetSocketAddress socketAddress;
 
         MsgSendMsgBody(Msg msg, InetSocketAddress socketAddress) {
             this.msg = msg;
@@ -309,15 +308,15 @@ public final class BusLine {
      * 当onComplete被调用后，则说明该任务已经完成，在下一次轮询的时候，该任务就会被从主线中移除
      */
     static abstract class WaiterSendMsgBody extends SendMsgBody {
-        private long originStartTime;
-        private long starTime;              // 等待开始时间
-        private long waitTimeMiniSeconds;  // 等待的时长
-        private long maxWaitTime;          // 最大等待时长
+        private final long originStartTime;
+        private  long starTime;              // 等待开始时间
+        private final long waitTimeMiniSeconds;  // 等待的时长
+        private final long maxWaitTime;          // 最大等待时长
         private boolean isComplete = false;     //是否已经完成
         private boolean isRunningNow;    // 是否立即执行
 
-        private long sequence;  // 消息序列号
-        private int crowdIndex;  // 消息集序号
+        private final long sequence;  // 消息序列号
+        private final int crowdIndex;  // 消息集序号
 
         /**
          * @param isRunningNow 是否立即执行一次
@@ -401,11 +400,11 @@ public final class BusLine {
      * 每次执行的时候，会发送当前消息簇还缺失的消息，当一个消息簇接收完整后，该操作结束（）
      */
     private static final class CommonMsgWaiterSendMsgBody extends WaiterSendMsgBody {
-        private long sequence;
-        private int crowdIndex;
-        private InetSocketAddress socketAddress;
-        private MsgSender msgSender;
-        private CrowdReceiverHandler crowdReceiverHandler;
+        private final long sequence;
+        private final int crowdIndex;
+        private final InetSocketAddress socketAddress;
+        private final MsgSender msgSender;
+        private final CrowdReceiverHandler crowdReceiverHandler;
 
         private static final boolean IS_RIGHT_NOW_RUNNING = false;  // 是否要立即执行
         CommonMsgWaiterSendMsgBody(long waitTime, long maxWaitTime, long sequence, int crowdIndex, MsgSender msgSender, CrowdReceiverHandler crowdReceiverHandler, InetSocketAddress inetSocketAddress) {
@@ -431,10 +430,10 @@ public final class BusLine {
      * 注意，该操作需要与ReceiveRspMsg 配合使用，当收到ReceiveRspMsg消息后，该操作结束
      */
     private static final class SendRspMsgSendMsgBody extends WaiterSendMsgBody {
-        private long sequence;
-        private int crowdIndex;
-        private InetSocketAddress socketAddress;
-        private MsgSender msgSender;
+        private final long sequence;
+        private final int crowdIndex;
+        private final InetSocketAddress socketAddress;
+        private final MsgSender msgSender;
 
         private static final boolean IS_RIGHT_NOW_RUNNING = true;  // 是否要立即执行
          SendRspMsgSendMsgBody(long waitTime,long maxWaitTime, long sequence, int crowdIndex, MsgSender msgSender, InetSocketAddress socketAddress) {
@@ -456,9 +455,9 @@ public final class BusLine {
      * 当接收到任何消息的时候应该被移除
      */
     private static final class CrowdOptionMsgSendMsgBody extends WaiterSendMsgBody {
-        private InetSocketAddress socketAddress;
-        private CrowdOptionMsg crowdOptionMsg;
-        private ISendCrowdOptionMsg iSendCrowdOptionMsg;
+        private final InetSocketAddress socketAddress;
+        private final CrowdOptionMsg crowdOptionMsg;
+        private final ISendCrowdOptionMsg iSendCrowdOptionMsg;
 
         // 发送试探性的消息不应该立即执行
         private static final boolean IS_RIGHT_NOW_RUNNING = false;  // 是否要立即执行
