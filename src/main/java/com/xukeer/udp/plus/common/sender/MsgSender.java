@@ -24,22 +24,21 @@ import java.util.concurrent.TimeUnit;
  * @date 18:16 2021/11/4
  **/
 public class MsgSender {
-    private static Logger log = LoggerFactory.getLogger(MsgSender.class);
+    private static final Logger log = LoggerFactory.getLogger(MsgSender.class);
     private static final int COMMON_MSG_PRIORITY = 1; // 普通消息的优先级
     private static final int RSP_MSG_PRIORITY = 2; // 完成接受确认的优先级
     private static final int RETRY_MSG_PRIORITY = 3; // 申请重发的消息的优先级
-
     private static final int SENDING_INTERVAL = 5;  // 发送间隔（主线会每隔这个单位的时间轮询一次发送队列，并将当前簇的消息发送出去）
 
     // 优先级阻塞队列，消息优先级字段值越大，越在前面被执行
     private final PriorityBlockingQueue<SendMsgBody> priorityQueue = new PriorityBlockingQueue<>(20, (p1, p2) -> p2.getPriority() - p1.getPriority());
 
-    private boolean isRunning = true;
+    private final boolean isRunning = true;
 
-    private Map<Long, MsgCrowd> msgCrowdMap = new HashMap<>();
+    private final Map<Long, MsgCrowd> msgCrowdMap = new HashMap<>();
 
     private MsgAddMachine msgAddMachine;
-    private int timeOutMillSecond;
+    private final int timeOutMillSecond;
 
     public MsgSender(DatagramSocket datagramSocket,int timeOutMillSecond) {
         this.timeOutMillSecond = timeOutMillSecond;

@@ -46,8 +46,6 @@ public final class CommonMsg extends CrowdOptionMsg {
 			dataOutputStream.writeByte(simpleIndex);
 			dataOutputStream.writeInt(msgLength);
 			dataOutputStream.write(msg);
-//			dataOutputStream.write(msg, 4, msgLength);
-//			ByteArrFactory.giveBackByteArr(msg);
 		} catch (IOException ignored){ }
 		return stream.toByteArray();
 	}
