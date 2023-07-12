@@ -33,6 +33,8 @@ public final class BusLine {
     // 新的消息会先暂时存入这个队列，等待一次轮询之后，会将该队列里面的消息全部移到主线上
     private final List<WaiterSendMsgBody> WAIT_MAIN_SIMPLE_MSG_LIST = new LinkedList<>();
 
+    private final Map<Long,ISendCrowdOptionMsg> longISendCrowdOptionMsgHashMap = new HashMap<>();
+
     // 为了去重，把接收成功的消息序号存在一个缓冲器中，接收成功的消息序号会在缓存器中存储60秒，在这60秒内如果有收到同样序号的数据消息(请求确认消息则不会被丢弃，依然会进行回应)，会被直接丢弃。
     //
     private final CacheSet<Long> success = new CacheSet<>();
@@ -84,7 +86,12 @@ public final class BusLine {
                 synchronized (success) {
                     if (!success.contains(sequence)) {
                         success.add(sequence);
-                        messageHandler.receiveMsg(msg, inetSocketAddress);
+                        if (longISendCrowdOptionMsgHashMap.containsKey(sequence)) {
+                            longISendCrowdOptionMsgHashMap.get(sequence).isResponse(msg);
+                            longISendCrowdOptionMsgHashMap.remove(sequence);
+                        } else {
+                            messageHandler.receiveMsg(msg, inetSocketAddress,sequence);
+                        }
                     }
                 }
             }
@@ -170,7 +177,6 @@ public final class BusLine {
     }
 
 
-
     private boolean handle(WaiterSendMsgBody waiterSendMsgBody) {
         long currentTime = System.currentTimeMillis();
         if (waiterSendMsgBody.getIsComplete()) {
@@ -184,14 +190,14 @@ public final class BusLine {
             }
         }
 
-       if (currentTime - waiterSendMsgBody.getOriginStartTime() > waiterSendMsgBody.getMaxWaitTime()){
-           if(waiterSendMsgBody instanceof CrowdOptionMsgSendMsgBody){
-               CrowdOptionMsgSendMsgBody crowdOptionMsgSendMsgBody = (CrowdOptionMsgSendMsgBody) waiterSendMsgBody;
-               crowdOptionMsgSendMsgBody.getISendCrowdOptionMsg().iRspMsgFailed(crowdOptionMsgSendMsgBody.getSequence(),crowdOptionMsgSendMsgBody.getCrowIndex());
-           }
-           return true;
-       }
-       return  false;
+        if (currentTime - waiterSendMsgBody.getOriginStartTime() > waiterSendMsgBody.getMaxWaitTime()) {
+            if (waiterSendMsgBody instanceof CrowdOptionMsgSendMsgBody) {
+                CrowdOptionMsgSendMsgBody crowdOptionMsgSendMsgBody = (CrowdOptionMsgSendMsgBody) waiterSendMsgBody;
+                crowdOptionMsgSendMsgBody.getISendCrowdOptionMsg().iRspMsgFailed(crowdOptionMsgSendMsgBody.getSequence(), crowdOptionMsgSendMsgBody.getCrowIndex());
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -267,10 +273,12 @@ public final class BusLine {
     private void addHandleSimpleMsg(WaiterSendMsgBody waiterSendMsgBody) {
         synchronized (WAIT_MAIN_SIMPLE_MSG_LIST) {
             WAIT_MAIN_SIMPLE_MSG_LIST.add(waiterSendMsgBody);
+
         }
     }
 
     void addCrowdOptionMsgSendMsgBody(int timeOutMillSecond ,CrowdOptionMsg crowdOptionMsg, InetSocketAddress targetAddr, ISendCrowdOptionMsg iSendCrowdOptionMsg) {
+        longISendCrowdOptionMsgHashMap.put(crowdOptionMsg.getSequence(),iSendCrowdOptionMsg);
         addHandleSimpleMsg(new CrowdOptionMsgSendMsgBody(200, timeOutMillSecond, crowdOptionMsg, targetAddr, iSendCrowdOptionMsg));
     }
 

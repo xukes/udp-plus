@@ -24,9 +24,9 @@ public class MessageSender {
 
     private final ISimpleMsgSender iSimpleMsgSender;
 
-    public MessageSender(byte[] bytes, InetSocketAddress targetAddr, ISimpleMsgSender iSimpleMsgSender) {
+    public MessageSender(byte[] bytes,Long seq, InetSocketAddress targetAddr, ISimpleMsgSender iSimpleMsgSender) {
         this.targetAddr = targetAddr;
-        this.sequence = SnowflakeUtil.nextId();
+        this.sequence = seq!=null?seq:SnowflakeUtil.nextId();
         msgCrowdIterator = MsgFactory.create(bytes, this.sequence);
         this.iSimpleMsgSender = iSimpleMsgSender;
     }

@@ -67,6 +67,10 @@ public class UdpPlusClient {
      * 发送消息
      */
     public void sendMsg(byte[] msgArr) {
-                msgSender.sendCommonMsgSingleThread(msgArr, inetSocketAddress);
+                msgSender.sendCommonMsgSingleThread(msgArr, inetSocketAddress,null,null);
+    }
+
+    public void sendMsg(byte[] msgArr,ResponseI response) {
+        msgSender.sendCommonMsgSingleThread(msgArr, inetSocketAddress, response,null);
     }
 }

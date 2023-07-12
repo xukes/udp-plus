@@ -2,6 +2,7 @@ package com.xukeer.udp.plus.common.sender;
 
 import com.xukeer.udp.plus.bus.ISendCrowdOptionMsg;
 import com.xukeer.udp.plus.bus.MsgAddMachine;
+import com.xukeer.udp.plus.client.ResponseI;
 import com.xukeer.udp.plus.common.msg.MsgCrowd;
 import com.xukeer.udp.plus.common.msg.*;
 import com.xukeer.udp.plus.utils.ScheduleUtil;
@@ -39,6 +40,11 @@ public class MsgSender {
 
     private MsgAddMachine msgAddMachine;
     private final int timeOutMillSecond;
+
+    /**
+     * 响应消息
+     * */
+    private final Map<Long, ResponseI> responseIHashMap = new HashMap<>();
 
     public MsgSender(DatagramSocket datagramSocket,int timeOutMillSecond) {
         this.timeOutMillSecond = timeOutMillSecond;
@@ -119,8 +125,8 @@ public class MsgSender {
     /**
      * 单线程添加
      * */
-    public void sendCommonMsgSingleThread(byte[] bytes, InetSocketAddress targetAddr)  {
-        MessageSender messageSender = new MessageSender (bytes, targetAddr, new ISimpleMsgSender(){
+    public void sendCommonMsgSingleThread(byte[] bytes, InetSocketAddress targetAddr, ResponseI response,Long seq)  {
+        MessageSender messageSender = new MessageSender (bytes,seq, targetAddr, new ISimpleMsgSender(){
 
             public void iSendCommonMsg(CommonMsg simpleMsgBody, InetSocketAddress targetAddr){
                 sendSimpleMsg(COMMON_MSG_PRIORITY, simpleMsgBody, targetAddr);
@@ -134,10 +140,13 @@ public class MsgSender {
                         public void iSendCrowdOptionMsg(CrowdOptionMsg crowdOptionMsg, InetSocketAddress targetAddr) {
                             sendCrowdOptionMsg(crowdOptionMsg, targetAddr);
                         }
-
                         @Override
                         public void iRspMsgFailed(long sequence, int crowdIndex) {
                             rspMsgFailed(sequence,crowdIndex );
+                        }
+                        @Override
+                        public void isResponse(byte[] arr){
+                            response.receiveResponse(arr);
                         }
                     });
                 }
@@ -153,6 +162,8 @@ public class MsgSender {
                 msgCrowdMap.remove(sequence);
             }
         });
+
+        responseIHashMap.put(messageSender.getSequence(), response);
 
         synchronized (sendMainLinkedList) {
             sendMainLinkedList.add(messageSender);

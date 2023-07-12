@@ -1,6 +1,7 @@
 package com.xukeer.udp.plus.server;
 
 //import com.xukeer.udp.plus.common.ByteMsgCreator;
+import com.xukeer.udp.plus.client.ResponseI;
 import com.xukeer.udp.plus.common.MessageHandler;
 import com.xukeer.udp.plus.common.MsgReceiveHandle;
 import com.xukeer.udp.plus.common.sender.MsgSender;
@@ -50,6 +51,13 @@ public class UpdPlusServer {
     }
 
     public void sendMsg(byte[] msgArr, InetSocketAddress inetSocketAddress) {
-        this.msgSender.sendCommonMsgSingleThread(msgArr, inetSocketAddress);
+        this.msgSender.sendCommonMsgSingleThread(msgArr, inetSocketAddress,null,null);
+    }
+    public void sendMsg(byte[] msgArr, InetSocketAddress inetSocketAddress, ResponseI responseI) {
+        this.msgSender.sendCommonMsgSingleThread(msgArr, inetSocketAddress,responseI,null);
+    }
+
+    public void sendMsg(byte[] msgArr, InetSocketAddress inetSocketAddress,Long seq) {
+        this.msgSender.sendCommonMsgSingleThread(msgArr, inetSocketAddress,null,seq);
     }
 }

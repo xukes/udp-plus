@@ -11,6 +11,6 @@ public interface MessageHandler {
     /**
      * 接收到消息
      * */
-    void receiveMsg(byte [] msg, InetSocketAddress inetSocketAddress);
+    void receiveMsg(byte [] msg, InetSocketAddress inetSocketAddress,Long sequence);
 
 }
